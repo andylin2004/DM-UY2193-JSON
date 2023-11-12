@@ -2,3 +2,17 @@ body {
     /* make the font on the website sans serif */
     font-family: sans-serif;
 }
+
+#header {
+    display: flex;
+    justify-content: space-between;
+    position: sticky;
+    top: 0px;
+}
+
+#header a {
+    text-decoration: none;
+    color: black;
+    margin-top: auto;
+    margin-bottom: auto;
+}
