@@ -62,6 +62,8 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
     }
+    const observer = lozad(); // lazy loads elements with default selector as '.lozad'
+    observer.observe();
 });
 
 function addPostPreview(json) {
@@ -89,6 +91,7 @@ function addPostPreview(json) {
     // if there is an image on the post, we create an img tag and make it show whatever image we want to show and append it to the container
     if (json["image"]) {
         let img = document.createElement("img");
+        img.className = "lozad";
         img.src = json["image"];
         contentContainer.appendChild(img);
     }
