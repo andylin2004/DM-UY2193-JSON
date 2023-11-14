@@ -22,13 +22,28 @@ let posts = [
 
 // wait for the page to actually load, then run everything inside here
 document.addEventListener("DOMContentLoaded", function () {
-        // let query = 
-        console.log(window.location.search.toString());
+    // partially via https://befused.com/javascript/get-filename-url/, but I found out via just using autocomplete that split and pop is a thing (python brain of mine)
+    // we want to get the html page
+    let page = window.location.pathname.split('/').pop();
     blogContainer = document.getElementById("blogcontainer");
-    // via https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of, this will go through every single post indice as a post, no index number required
-    // i blame curiosity for this unorthodox thing
-    for (post of posts) {
-        addPostPreview(post);
+    if (page == "index.html" || !page) {
+        // via https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of, this will go through every single post indice as a post, no index number required
+        // i blame curiosity for this unorthodox thing
+        for (post of posts) {
+            addPostPreview(post);
+        }
+    } else {
+        let queryStr = window.location.search;
+        let urlParams = new URLSearchParams(queryStr);
+        if (page == "blog.html") {
+            let id = urlParams.get("postid");
+            for (post of posts) {
+                if (post["postid"] == id) {
+                    addPostPreview(post);
+                    break;
+                }
+            }
+        }
     }
 });
 
@@ -37,7 +52,10 @@ function addPostPreview(json) {
     blogContainer.appendChild(contentContainer);
     
     let title = document.createElement("h1");
-    title.innerText = json["posttitle"];
+    let urlComponent = document.createElement("a");
+    urlComponent.href = "blog.html?postid=" + json["postid"];
+    urlComponent.innerText = json["posttitle"]
+    title.appendChild(urlComponent);
     contentContainer.appendChild(title);
     
     let date = document.createElement("p");
