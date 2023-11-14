@@ -3,16 +3,32 @@ body {
     font-family: sans-serif;
 }
 
-#header {
+#navbar {
     display: flex;
     justify-content: space-between;
     position: sticky;
     top: 0px;
 }
 
-#header a {
+#navbar a {
     text-decoration: none;
     color: black;
     margin-top: auto;
     margin-bottom: auto;
+}
+
+#blogcontainer h1 {
+    text-align: center;
+}
+
+#blogcontainer hr {
+    width: 10%;
+}
+
+#blogcontainer .date {
+    text-align: center;
+}
+
+#blogcontainer img {
+    width: 100%;
 }
