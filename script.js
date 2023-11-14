@@ -1,6 +1,7 @@
 // this is where we have our blog rendered in
 let blogContainer;
 
+// posts that we have
 let posts = [
     {
         "posttitle": "My friend is renting a Tesla Model Y",
@@ -26,6 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // we want to get the html page
     let page = window.location.pathname.split('/').pop();
     blogContainer = document.getElementById("blogcontainer");
+    // load all blog posts if index page
     if (page == "index.html" || !page) {
         // via https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of, this will go through every single post indice as a post, no index number required
         // i blame curiosity for this unorthodox thing
@@ -33,9 +35,12 @@ document.addEventListener("DOMContentLoaded", function () {
             addPostPreview(post);
         }
     } else {
+        // otherwise get params
         let queryStr = window.location.search;
         let urlParams = new URLSearchParams(queryStr);
+        // if its a single blog post, just load that single blog post
         if (page == "blog.html") {
+            // get the post id and find it in params
             let id = urlParams.get("postid");
             for (post of posts) {
                 if (post["postid"] == id) {
@@ -44,9 +49,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             }
         } else if (page == "tags.html") {
+            // if tag page, get the actual tag in url param
             let tag = urlParams.get("tag");
             let tagTxt = document.getElementById("tagtitle");
+            // we want users to know that they're looking at one specific web page
             tagTxt.innerText = "Posts with tag " + tag;
+            //  find all posts with that tag and render it
             for (post of posts) {
                 if (post["tags"].includes(tag)) {
                     addPostPreview(post);
@@ -57,9 +65,12 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function addPostPreview(json) {
+    // this function will basically render a blog post in it's own div
+    // create a div to contain the post, append to content container
     let contentContainer = document.createElement("div");
     blogContainer.appendChild(contentContainer);
     
+    // create a h1 that contains an a tag that will link to the specific blog post, with the text being the post title, and append it to the blog container
     let title = document.createElement("h1");
     let urlComponent = document.createElement("a");
     urlComponent.href = "blog.html?postid=" + json["postid"];
@@ -67,32 +78,40 @@ function addPostPreview(json) {
     title.appendChild(urlComponent);
     contentContainer.appendChild(title);
     
+    // create a p tag with the date class that will say the date, and then append it to the blog container
+    // we'll also append a hr tag to the blog container
     let date = document.createElement("p");
     date.className = "date";
     date.innerText = json["date"];
     contentContainer.appendChild(date);
     contentContainer.appendChild(document.createElement("hr"));
     
+    // if there is an image on the post, we create an img tag and make it show whatever image we want to show and append it to the container
     if (json["image"]) {
         let img = document.createElement("img");
         img.src = json["image"];
         contentContainer.appendChild(img);
     }
     
+    // we add a p tag that will contain the body text for the blog post, and append it to the container
     let postBody = document.createElement("p");
     postBody.innerText = json["postcontent"];
     contentContainer.appendChild(postBody);
     
+    // we add a p tag for the tags, and append it to the container
     let tags = document.createElement("p");
     tags.innerText = "Tags: ";
     contentContainer.appendChild(tags);
     
+    // loop for each json tag
     for (tag of json["tags"]) {
+        // we make an a tag for each tag, link it to the specified tag page, set the text to whatever the tag is, and append it to the element that tags element has
         let tagElement = document.createElement("a");
         tagElement.href = "tags.html?tag=" + tag;
         tagElement.innerText = tag;
         tags.appendChild(tagElement);
         // via https://flexiple.com/javascript/get-last-array-element-javascript, you can use -1 in slice with an array to get the last element
+        // if the current tag isn't the last tag, we append a comma (note it's a string, i poked around lol)
         if (json["tags"].slice(-1) != tag) {
             // from poking around, append will append a string to the end of the current node situation if i'm wording this well
             tags.append(", ");
