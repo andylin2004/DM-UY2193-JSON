@@ -62,11 +62,11 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
     }
+    // lozad activation code, courtesy of https://github.com/ApoorvSaxena/lozad.js
     const observer = lozad(); // lazy loads elements with default selector as '.lozad'
     observer.observe();
-    Fancybox.bind('[data-fancybox]', {
-        //
-    }); 
+    // fancybox activation code, courtesy of https://fancyapps.com/fancybox/getting-started/
+    Fancybox.bind('[data-fancybox]', {}); 
 });
 
 function addPostPreview(json) {
@@ -95,6 +95,8 @@ function addPostPreview(json) {
     // we also make a container that can be used with data-fancybox, which contains the said image
     if (json["image"]) {
         let imgContainer = document.createElement("a");
+        // dataset can be used to make custom tag params, provided that they start with data, via https://www.geeksforgeeks.org/what-are-custom-attributes-in-html5/
+        // we will need to use this to add the fancybox tag param, as well as the src param so that fancybox knows what image to load up
         imgContainer.dataset.fancybox = null;
         imgContainer.dataset.src = json["image"];
         contentContainer.appendChild(imgContainer);
