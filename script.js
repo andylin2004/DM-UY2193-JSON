@@ -43,6 +43,15 @@ document.addEventListener("DOMContentLoaded", function () {
                     break;
                 }
             }
+        } else if (page == "tags.html") {
+            let tag = urlParams.get("tag");
+            let tagTxt = document.getElementById("tagtitle");
+            tagTxt.innerText = "Posts with tag " + tag;
+            for (post of posts) {
+                if (post["tags"].includes(tag)) {
+                    addPostPreview(post);
+                }
+            }
         }
     }
 });
@@ -80,6 +89,7 @@ function addPostPreview(json) {
     
     for (tag of json["tags"]) {
         let tagElement = document.createElement("a");
+        tagElement.href = "tags.html?tag=" + tag;
         tagElement.innerText = tag;
         tags.appendChild(tagElement);
         // via https://flexiple.com/javascript/get-last-array-element-javascript, you can use -1 in slice with an array to get the last element

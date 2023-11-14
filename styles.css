@@ -32,3 +32,8 @@ body {
 #blogcontainer img {
     width: 100%;
 }
+
+#tagtitle {
+    text-align: center;
+    font-size: 60pt;
+}
