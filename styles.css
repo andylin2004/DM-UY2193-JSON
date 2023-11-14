@@ -20,6 +20,12 @@ body {
     margin-bottom: auto;
 }
 
+#blogcontainer {
+    margin-left: auto;
+    margin-right: auto;
+    width: min(100%, 650pt);
+}
+
 #blogcontainer h1 {
     text-align: center;
 }
