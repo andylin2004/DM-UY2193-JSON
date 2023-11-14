@@ -15,7 +15,7 @@ let posts = [
         "posttitle": "I love Matty Healy",
         "postcontent": "This guy is like the perfect blend of chaoticness and artfulness. He is super based at what he's doing and cranks out some of the best music I've ever heard. Man's might be way too chaotic sometimes but he's great.",
         "date": "November 10, 2023",
-        "image": "https://loremflickr.com/1920/1080/the+1975",
+        "image": "https://loremflickr.com/1920/1080/matty+healy",
         "tags": ["the1975", "mattyhealy"],
         "postid": "mattyhealy"
     }
@@ -64,6 +64,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     const observer = lozad(); // lazy loads elements with default selector as '.lozad'
     observer.observe();
+    Fancybox.bind('[data-fancybox]', {
+        //
+    }); 
 });
 
 function addPostPreview(json) {
@@ -89,11 +92,16 @@ function addPostPreview(json) {
     contentContainer.appendChild(document.createElement("hr"));
     
     // if there is an image on the post, we create an img tag and make it show whatever image we want to show and append it to the container
+    // we also make a container that can be used with data-fancybox, which contains the said image
     if (json["image"]) {
+        let imgContainer = document.createElement("a");
+        imgContainer.dataset.fancybox = null;
+        imgContainer.dataset.src = json["image"];
+        contentContainer.appendChild(imgContainer);
         let img = document.createElement("img");
         img.className = "lozad";
         img.src = json["image"];
-        contentContainer.appendChild(img);
+        imgContainer.appendChild(img);
     }
     
     // we add a p tag that will contain the body text for the blog post, and append it to the container
